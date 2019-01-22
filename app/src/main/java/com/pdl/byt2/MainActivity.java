@@ -68,6 +68,7 @@ import android.view.inputmethod.EditorInfo;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -98,6 +99,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends WebViewExtActivity implements
          SearchBarController.OnCancelListener {
@@ -106,6 +111,9 @@ public class MainActivity extends WebViewExtActivity implements
     private static final String STATE_KEY_THEME_COLOR = "theme_color";
     private static final int STORAGE_PERM_REQ = 423;
     private static final int LOCATION_PERM_REQ = 424;
+
+    private static final Pattern WEBVIEW_VERSION_PATTERN =
+            Pattern.compile("(Chrome/)([\\d\\.]+)\\s");
 
     private final BroadcastReceiver mUrlResolvedReceiver = new BroadcastReceiver() {
         @Override
@@ -141,6 +149,7 @@ public class MainActivity extends WebViewExtActivity implements
     private int mThemeColor;
 
     private String mWaitingDownloadUrl;
+    private String mWebViewVersion;
 
     private Bitmap mUrlIcon;
 
@@ -236,7 +245,10 @@ public class MainActivity extends WebViewExtActivity implements
         mWebView = findViewById(R.id.web_view);
         mWebView.init(this, urlBarController, mLoadingProgress, mIncognito);
         mWebView.setDesktopMode(desktopMode);
-        mWebView.loadUrl(url == null ? PrefsUtils.getHomePage(this) : url);
+
+        // 최초 URL 로드
+        // mWebView.loadUrl(url == null ? PrefsUtils.getHomePage(this) : url);
+        mWebView.loadUrl("https://music.youtube.com");
 
         mHasThemeColorSupport = WebViewCompat.isThemeColorSupported(mWebView);
 
@@ -418,6 +430,9 @@ public class MainActivity extends WebViewExtActivity implements
                                 R.string.menu_desktop_mode : R.string.menu_mobile_mode));
                         desktopMode.setIcon(ContextCompat.getDrawable(this, isDesktop ?
                                 R.drawable.ic_desktop : R.drawable.ic_mobile));
+                        break;
+                    case R.id.menu_debug:
+                        about();
                         break;
                 }
                 return true;
@@ -816,6 +831,47 @@ public class MainActivity extends WebViewExtActivity implements
         if (mThemeColor != 0) {
             applyThemeColor(mThemeColor);
         }
+    }
+
+    // Returns true is a method has no arguments and returns either a boolean or a String.
+    private boolean methodIsSimpleInspector(Method method) {
+        Class<?> returnType = method.getReturnType();
+        return ((returnType.equals(boolean.class) || returnType.equals(String.class))
+                && method.getParameterTypes().length == 0);
+    }
+
+    private void about() {
+
+        WebSettings settings = mWebView.getSettings();
+        Matcher matcher = WEBVIEW_VERSION_PATTERN.matcher(settings.getUserAgentString());
+        if (matcher.find()) {
+            mWebViewVersion = matcher.group(2);
+        } else {
+            mWebViewVersion = "-";
+        }
+
+
+        StringBuilder summary = new StringBuilder();
+        summary.append("WebView version : " + mWebViewVersion + "\n");
+
+        for (Method method : settings.getClass().getMethods()) {
+            if (!methodIsSimpleInspector(method)) continue;
+            try {
+                summary.append(method.getName() + " : " + method.invoke(settings) + "\n");
+            } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) { }
+        }
+
+        android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
+
+                // temporarily hardcoded
+                .setTitle("DEBUG")
+
+                .setMessage(summary)
+                .setPositiveButton("OK", null)
+                .create();
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     }
 
     private static class SetAsFavoriteTask extends AsyncTask<Void, Void, Boolean> {
