@@ -16,6 +16,7 @@
 package com.pdl.byt2;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -503,6 +504,7 @@ public class MainActivity extends WebViewExtActivity implements
         new SetAsFavoriteTask(getContentResolver(), title, url, color, mCoordinator).execute();
     }
 
+    @SuppressLint("StringFormatInvalid")
     public void downloadFileAsk(String url, String contentDisposition, String mimeType) {
         String fileName = URLUtil.guessFileName(url, contentDisposition, mimeType);
 
