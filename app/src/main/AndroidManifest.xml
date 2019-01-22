@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.lineageos.jelly">
+    package="com.pdl.byt2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,7 +24,7 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
-        android:name=".JellyApp"
+        android:name="com.pdl.byt2.JellyApp"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -35,7 +35,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="org.lineageos.jelly.MainActivity"
+            android:name="com.pdl.byt2.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize"
             android:documentLaunchMode="always"
             android:hardwareAccelerated="true"
@@ -76,17 +76,17 @@
         </activity>
 
         <activity
-            android:name="org.lineageos.jelly.history.HistoryActivity"
+            android:name="com.pdl.byt2.history.HistoryActivity"
             android:label="@string/history_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="org.lineageos.jelly.favorite.FavoriteActivity"
+            android:name="com.pdl.byt2.favorite.FavoriteActivity"
             android:label="@string/favorite_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name="org.lineageos.jelly.SettingsActivity"
+            android:name="com.pdl.byt2.SettingsActivity"
             android:label="@string/settings_title"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -101,12 +101,12 @@
         </provider>
 
         <provider
-            android:name=".favorite.FavoriteProvider"
+            android:name="com.pdl.byt2.favorite.FavoriteProvider"
             android:authorities="org.lineageos.jelly.favorite"
             android:exported="false" />
 
         <provider
-            android:name=".history.HistoryProvider"
+            android:name="com.pdl.byt2.history.HistoryProvider"
             android:authorities="org.lineageos.jelly.history"
             android:exported="false" />
 
