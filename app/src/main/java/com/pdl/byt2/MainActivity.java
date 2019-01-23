@@ -108,7 +108,7 @@ import java.util.regex.Pattern;
 public class MainActivity extends WebViewExtActivity implements
          SearchBarController.OnCancelListener {
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String PROVIDER = "org.lineageos.jelly.fileprovider";
+    private static final String PROVIDER = "com.pdl.byt2.fileprovider";
     private static final String STATE_KEY_THEME_COLOR = "theme_color";
     private static final int STORAGE_PERM_REQ = 423;
     private static final int LOCATION_PERM_REQ = 424;
