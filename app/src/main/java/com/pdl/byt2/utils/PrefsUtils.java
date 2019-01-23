@@ -64,15 +64,6 @@ public final class PrefsUtils {
         }
     }
 
-    public static String getHomePage(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getString(KEY_HOME_PAGE, context.getString(R.string.default_home_page));
-    }
-
-    public static void setHomePage(Context context, String value) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putString(KEY_HOME_PAGE, value).apply();
-    }
 
     public static boolean getAdvancedShare(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
