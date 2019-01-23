@@ -23,6 +23,7 @@ import com.pdl.byt2.R;
 
 public final class PrefsUtils {
     private static final String KEY_SEARCH_ENGINE = "key_search_engine";
+    private static final String KEY_SUGGESTION_PROVIDER = "key_suggestion_provider";
     private static final String KEY_HOME_PAGE = "key_home_page";
     private static final String KEY_ADVANCED_SHARE = "key_advanced_share";
     private static final String KEY_LOOKLOCK = "key_looklock";
@@ -30,7 +31,7 @@ public final class PrefsUtils {
     private static final String KEY_LOCATION = "key_location";
     private static final String KEY_COOKIE = "key_cookie";
     private static final String KEY_DO_NOT_TRACK = "key_do_not_track";
-    private static final String KEY_SUGGESTION_PROVIDER = "key_suggestion_provider";
+
 
     public enum SuggestionProviderType {
         BAIDU,
@@ -50,10 +51,19 @@ public final class PrefsUtils {
                 context.getString(R.string.default_search_engine));
     }
 
-    public static String getHomePage(Context context) {
+    public static SuggestionProviderType getSuggestionProvider(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getString(KEY_HOME_PAGE, context.getString(R.string.default_home_page));
+        try {
+            String value = prefs.getString(KEY_SUGGESTION_PROVIDER, null);
+            if (value == null) {
+                value = context.getString(R.string.default_suggestion_provider);
+            }
+            return SuggestionProviderType.valueOf(value);
+        } catch (IllegalArgumentException ignored) {
+            return SuggestionProviderType.NONE;
+        }
     }
+
 
     public static boolean getAdvancedShare(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -75,31 +85,17 @@ public final class PrefsUtils {
         return prefs.getBoolean(KEY_LOCATION, true);
     }
 
-    public static boolean getCookie(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getBoolean(KEY_COOKIE, true);
-    }
-
     public static boolean getDoNotTrack(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getBoolean(KEY_DO_NOT_TRACK, false);
     }
 
-    public static SuggestionProviderType getSuggestionProvider(Context context) {
+    public static boolean getCookie(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        try {
-            String value = prefs.getString(KEY_SUGGESTION_PROVIDER, null);
-            if (value == null) {
-                value = context.getString(R.string.default_suggestion_provider);
-            }
-            return SuggestionProviderType.valueOf(value);
-        } catch (IllegalArgumentException ignored) {
-            return SuggestionProviderType.NONE;
-        }
+        return prefs.getBoolean(KEY_COOKIE, true);
     }
 
-    public static void setHomePage(Context context, String value) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefs.edit().putString(KEY_HOME_PAGE, value).apply();
-    }
+
+
+
 }

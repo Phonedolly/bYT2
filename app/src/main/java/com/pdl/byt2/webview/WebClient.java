@@ -15,6 +15,7 @@
  */
 package com.pdl.byt2.webview;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -92,6 +93,7 @@ class WebClient extends WebViewClient {
         return false;
     }
 
+    @SuppressLint("StringFormatInvalid")
     @Override
     public void onReceivedHttpAuthRequest(WebView view,
                                           HttpAuthHandler handler, String host, String realm) {
