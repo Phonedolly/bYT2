@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2017 The LineageOS Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (c) 2017 The LineageOS Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -163,9 +162,9 @@
     <!-- No activity found to open the given url error -->
     <string name="error_no_activity_found">No app can handle this link</string>
 
-    <string translatable="false" name="default_search_engine">https://google.com/search?ie=UTF-8&amp;source=android-browser&amp;q={searchTerms}</string>
-    <string translatable="false" name="default_home_page">https://music.youtube.com</string>
-    <string translatable="false" name="default_suggestion_provider">GOOGLE</string>
+    <string name="default_search_engine" translatable="false">https://google.com/search?ie=UTF-8&amp;source=android-browser&amp;q={searchTerms}</string>
+    <string name="default_home_page" translatable="false">https://google.com</string>
+    <string name="default_suggestion_provider" translatable="false">GOOGLE</string>
 
     <!-- Auth dialog: title -->
     <string name="auth_dialog_title">Authentication Required</string>
